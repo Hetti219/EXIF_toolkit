@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "183825030045",
+    "project_id": "exif-toolkit",
+    "storage_bucket": "exif-toolkit.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:183825030045:android:6a7a23608fd521009d6d74",
+        "android_client_info": {
+          "package_name": "io.github.hetti219"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD8a81dpF2R5q6Yq9_vLqM8mitSsR3J2kk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
