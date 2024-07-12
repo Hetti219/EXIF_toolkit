@@ -1,4 +1,6 @@
+import 'package:exif_toolkit/authentication/signup_page.dart';
 import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -15,14 +17,14 @@ class _LoginPageState extends State<LoginPage> {
     final theme = Theme.of(context);
 
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Login', style: theme.textTheme.headlineLarge),
-        centerTitle: true,
-        backgroundColor: theme.colorScheme.primary,
-      ),
-      body: SingleChildScrollView(
-        child: Center(
-          child: Column(
+        appBar: AppBar(
+          title: Text('Login', style: theme.textTheme.headlineLarge),
+          centerTitle: true,
+          backgroundColor: theme.colorScheme.primary,
+        ),
+        body: SingleChildScrollView(
+          child: Center(
+            child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
@@ -42,29 +44,57 @@ class _LoginPageState extends State<LoginPage> {
                   child: Column(
                       crossAxisAlignment: CrossAxisAlignment.end,
                       children: [
-                      TextField(
-                      controller: _email,
-                      keyboardType: TextInputType.emailAddress,
-                      decoration: InputDecoration(
-                          labelText: 'Enter User Email',
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(20),
-                          ))),
-                  const SizedBox(
-                    height: 10,
+                        TextField(
+                            controller: _email,
+                            keyboardType: TextInputType.emailAddress,
+                            decoration: InputDecoration(
+                                labelText: 'Enter User Email',
+                                border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(20),
+                                ))),
+                        const SizedBox(
+                          height: 10,
+                        ),
+                        GestureDetector(
+                          onTap: () {},
+                          child: Text(
+                            'Reset Account Device?',
+                            style: theme.textTheme.labelSmall,
+                          ),
+                        )
+                      ]),
+                ),
+                const SizedBox(
+                  height: 20,
+                ),
+                ElevatedButton(
+                  onPressed: () {},
+                  style: ElevatedButton.styleFrom(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 50, vertical: 20)),
+                  child: Text(
+                    'Login',
+                    style: theme.textTheme.labelLarge,
                   ),
-                  GestureDetector(
-                    onTap: () {},
-                    child: Text(
-                        'Reset Account Device?',
-                        style: theme.textTheme.labelSmall,
+                ),
+                const SizedBox(
+                  height: 100,
+                ),
+                GestureDetector(
+                  onTap: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const SignupPage()));
+                  },
+                  child: Text(
+                    'Are you a new user? Sign up here',
+                    style: theme.textTheme.bodyMedium,
                   ),
                 )
-              ]),
-        )
-        ],
-      ),
-    ),)
-    );
+              ],
+            ),
+          ),
+        ));
   }
 }
