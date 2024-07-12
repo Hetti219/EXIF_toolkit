@@ -72,5 +72,4 @@ class DefaultFirebaseOptions {
     storageBucket: 'exif-toolkit.appspot.com',
     measurementId: 'G-9CLVH5855W',
   );
-
 }
