@@ -1,4 +1,3 @@
-import 'package:exif_toolkit/authentication/signup_page.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
@@ -11,6 +10,72 @@ class LoginPage extends StatefulWidget {
 
 class _LoginPageState extends State<LoginPage> {
   final TextEditingController _email = TextEditingController();
+
+  void _showResetDeviceDialog(BuildContext context) {
+    final TextEditingController emailController = TextEditingController();
+    final ThemeData theme = Theme.of(context);
+
+    showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text(
+              'Reset Account Device',
+              style: theme.textTheme.headlineMedium,
+            ),
+            content: TextField(
+              controller: emailController,
+              keyboardType: TextInputType.emailAddress,
+              style: theme.textTheme.labelMedium,
+              decoration: const InputDecoration(labelText: 'Enter Email'),
+            ),
+            actions: <Widget>[
+              TextButton(
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                  child: Text(
+                    'Cancel',
+                    style: theme.textTheme.labelLarge,
+                  )),
+              TextButton(
+                  onPressed: () async {
+                    String email = emailController.text.trim();
+
+                    try {
+                      await FirebaseAuth.instance
+                          .sendPasswordResetEmail(email: email);
+                      Navigator.of(context).pop();
+
+                      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                          content: Text(
+                        'Account Device Reset Email sent.',
+                        style: theme.textTheme.bodyMedium,
+                      )));
+                    } on FirebaseException catch (e) {
+                      if (e.code == 'user-not-found') {
+                        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                            content: Text(
+                          "User Email doesn't exist",
+                          style: theme.textTheme.bodyMedium,
+                        )));
+                      } else {
+                        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                            content: Text(
+                          'Error sending Account Device Reset email: ${e.message}',
+                          style: theme.textTheme.bodyMedium,
+                        )));
+                      }
+                    }
+                  },
+                  child: Text(
+                    'Send Reset Link',
+                    style: theme.textTheme.labelLarge,
+                  ))
+            ],
+          );
+        });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -56,7 +121,9 @@ class _LoginPageState extends State<LoginPage> {
                           height: 10,
                         ),
                         GestureDetector(
-                          onTap: () {},
+                          onTap: () {
+                            _showResetDeviceDialog(context);
+                          },
                           child: Text(
                             'Reset Account Device?',
                             style: theme.textTheme.labelSmall,
@@ -82,10 +149,7 @@ class _LoginPageState extends State<LoginPage> {
                 ),
                 GestureDetector(
                   onTap: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => const SignupPage()));
+                    Navigator.pushNamed(context, '/signup_page');
                   },
                   child: Text(
                     'Are you a new user? Sign up here',
