@@ -65,7 +65,7 @@ class EXIFDataManipulatorApp extends StatelessWidget {
         ),
       ),
       home: const LoginPage(),
-      routes: {'/signup_page': (context) => const SignupPage()},
+      routes: {'/signup_page': (context) => const SignupPage()}, //Page Routes
     );
   }
 }
