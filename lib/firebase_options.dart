@@ -47,7 +47,7 @@ class DefaultFirebaseOptions {
   }
 
   static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyD8a81dpF2R5q6Yq9_vLqM8mitSsR3J2kk',
+    apiKey: ${{secrets.FIREBASE_API_KEY_ANDROID}},
     appId: '1:183825030045:android:6a7a23608fd521009d6d74',
     messagingSenderId: '183825030045',
     projectId: 'exif-toolkit',
