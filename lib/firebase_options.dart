@@ -55,7 +55,7 @@ class DefaultFirebaseOptions {
   );
 
   static const FirebaseOptions ios = FirebaseOptions(
-    apiKey: 'AIzaSyDQ2d_qb558VYAAlGQEgt5_vjI76Rk4gJ4',
+    apiKey: ${{secrets.FIREBASE_API_KEY_IOS}},
     appId: '1:183825030045:ios:07f069658f3401a29d6d74',
     messagingSenderId: '183825030045',
     projectId: 'exif-toolkit',
@@ -64,7 +64,7 @@ class DefaultFirebaseOptions {
   );
 
   static const FirebaseOptions web = FirebaseOptions(
-    apiKey: 'AIzaSyAf0TLt2F4NbqBiduf5P5WcwQ989spO8-g',
+    apiKey: ${{secrets.FIREBASE_API_KEY_WEB}},
     appId: '1:183825030045:web:2e9a9c42ae9ca6e59d6d74',
     messagingSenderId: '183825030045',
     projectId: 'exif-toolkit',
