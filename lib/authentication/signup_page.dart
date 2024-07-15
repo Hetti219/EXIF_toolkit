@@ -1,4 +1,5 @@
 import 'package:exif_toolkit/authentication/auth_service.dart';
+import 'package:exif_toolkit/authentication/device_details.dart';
 import 'package:exif_toolkit/authentication/input_validator.dart';
 import 'package:flutter/material.dart';
 import 'dart:developer';
@@ -46,13 +47,17 @@ class _SignupPageState extends State<SignupPage> {
     return Scaffold(
       appBar: AppBar(
         title: Text('Sign up', style: theme.textTheme.headlineMedium),
-        backgroundColor: theme.primaryColor,
+        backgroundColor: theme.colorScheme.primary,
       ),
       body: SingleChildScrollView(
         child: Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
+              const SizedBox(
+                height: 10,
+              ),
               Image.asset(
                 'assets/images/Gemini_Generated_Image_exos46exos46exos.jpeg',
                 width: 200,
@@ -72,11 +77,55 @@ class _SignupPageState extends State<SignupPage> {
                           borderRadius: BorderRadius.circular(20)),
                       errorText: _emailError),
                 ),
+              ),
+              const SizedBox(
+                height: 25,
+              ),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 25),
+                child: Text(
+                  "Note: The email you entered will be registered with the device's ID so that you can only login to the app using the above entered email only. You can reset the associated device later.",
+                  style: theme.textTheme.bodySmall,
+                ),
+              ),
+              const SizedBox(
+                height: 20,
+              ),
+              ElevatedButton(
+                onPressed: _signup,
+                style: ElevatedButton.styleFrom(
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 50, vertical: 20)),
+                child: Text(
+                  'Sign up',
+                  style: theme.textTheme.labelLarge,
+                ),
               )
             ],
           ),
         ),
       ),
     );
+  }
+
+  _signup() async {
+    final deviceId = DeviceDetails().getDeviceId();
+    final user = await _auth.createUserWithEmailAndDeviceId(
+        _email.text, deviceId.toString());
+
+    if (user != null) {
+      Navigator.pushReplacementNamed(context, '/login_page');
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          content: Text(
+        "User Sign up successful.",
+        style: Theme.of(context).textTheme.bodyMedium,
+      )));
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          content: Text(
+        "Sign up failed.",
+        style: Theme.of(context).textTheme.bodyMedium,
+      )));
+    }
   }
 }
