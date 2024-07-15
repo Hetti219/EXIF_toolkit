@@ -149,7 +149,7 @@ class _LoginPageState extends State<LoginPage> {
                 ),
                 GestureDetector(
                   onTap: () {
-                    Navigator.pushNamed(context, '/signup_page');
+                    Navigator.pushReplacementNamed(context, '/signup_page');
                   },
                   child: Text(
                     'Are you a new user? Sign up here',
