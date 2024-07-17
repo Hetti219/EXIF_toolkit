@@ -1,5 +1,7 @@
+import 'package:exif_toolkit/authentication/auth_service.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'dart:developer';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -9,7 +11,17 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
-  final TextEditingController _email = TextEditingController();
+  final _auth = AuthService();
+
+  final _email = TextEditingController();
+  final _password = TextEditingController();
+
+  @override
+  void dispose() {
+    super.dispose();
+    _email.dispose();
+    _password.dispose();
+  }
 
   void _showResetDeviceDialog(BuildContext context) {
     final TextEditingController emailController = TextEditingController();
@@ -106,14 +118,30 @@ class _LoginPageState extends State<LoginPage> {
                 ),
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 20),
+                  child: TextField(
+                    controller: _email,
+                    keyboardType: TextInputType.emailAddress,
+                    decoration: InputDecoration(
+                      labelText: 'Enter User Email',
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(20),
+                      ),
+                    ),
+                  ),
+                ),
+                const SizedBox(
+                  height: 20,
+                ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 20),
                   child: Column(
                       crossAxisAlignment: CrossAxisAlignment.end,
                       children: [
                         TextField(
-                            controller: _email,
-                            keyboardType: TextInputType.emailAddress,
+                            controller: _password,
+                            obscureText: true,
                             decoration: InputDecoration(
-                                labelText: 'Enter User Email',
+                                labelText: 'Enter Password',
                                 border: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(20),
                                 ))),
@@ -135,7 +163,7 @@ class _LoginPageState extends State<LoginPage> {
                   height: 20,
                 ),
                 ElevatedButton(
-                  onPressed: () {},
+                  onPressed: _login,
                   style: ElevatedButton.styleFrom(
                       padding: const EdgeInsets.symmetric(
                           horizontal: 50, vertical: 20)),
@@ -160,5 +188,24 @@ class _LoginPageState extends State<LoginPage> {
             ),
           ),
         ));
+  }
+
+  _login() async {
+    final user =
+        await _auth.loginUserWithEmailAndPassword(_email.text, _password.text);
+
+    if (user != null) {
+      log("User Logged Successfully!");
+      /*Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => const MainHomePage()),
+      );*/
+    } else {
+      log("Login failed!");
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+            content: Text('Login failed. Please check your credentials.')),
+      );
+    }
   }
 }
