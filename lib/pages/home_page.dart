@@ -11,6 +11,6 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
-    return CupertinoPageScaffold(child: CupertinoNavigationBar(middle: 'Select an image',));
+    return CupertinoPageScaffold(child: CupertinoNavigationBar(middle: Text('Select an image'),));
   }
 }
