@@ -3,6 +3,8 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 
 class DeviceDetails {
+  BuildContext? get context => null;
+
   //Get device ID
   Future<String?> getDeviceId() async {
     DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();
@@ -20,10 +22,10 @@ class DeviceDetails {
         deviceId = webBrowserInfo.vendor;
       }
     } catch (e) {
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+      ScaffoldMessenger.of(context!).showSnackBar(SnackBar(
           content: Text(
         'Error sending Account Device Reset email: $e',
-        style: Theme.of(context).textTheme.bodyMedium,
+        style: Theme.of(context!).textTheme.bodyMedium,
       )));
     }
 
