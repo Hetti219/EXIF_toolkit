@@ -2,7 +2,6 @@ import 'package:exif_toolkit/authentication/auth_service.dart';
 import 'package:exif_toolkit/authentication/device_details.dart';
 import 'package:exif_toolkit/authentication/input_validator.dart';
 import 'package:flutter/material.dart';
-import 'dart:developer';
 
 class SignupPage extends StatefulWidget {
   const SignupPage({super.key});
@@ -16,27 +15,50 @@ class _SignupPageState extends State<SignupPage> {
 
   //Controllers
   final _email = TextEditingController();
+  final _password = TextEditingController();
+  final _passwordRetype = TextEditingController();
 
-  //Error messages
+  //Error message variables
   String? _emailError;
+  String? _passwordError;
+  String? _passwordRetypeError;
 
   @override
   void initState() {
     super.initState();
 
     _email.addListener(_validateEmail);
+
+    _password.addListener(_validatePassword);
+    _passwordRetype.addListener(_validateRetype);
   }
 
   @override
   void dispose() {
     super.dispose();
     _email.dispose();
+    _password.dispose();
   }
 
-  //Email Validator
+  //Email validation
   void _validateEmail() {
     setState(() {
       _emailError = EmailValidator.validate(_email.text);
+    });
+  }
+
+  //Password validation
+  void _validatePassword() {
+    setState(() {
+      _passwordError = PasswordValidator.validate(_password.text);
+    });
+  }
+
+  //Password retype validation
+  void _validateRetype() {
+    setState(() {
+      _passwordRetypeError = RetypePasswordValidator.validate(
+          _passwordRetype.text, _password.text);
     });
   }
 
@@ -79,13 +101,33 @@ class _SignupPageState extends State<SignupPage> {
                 ),
               ),
               const SizedBox(
-                height: 25,
+                height: 20,
               ),
               Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 25),
-                child: Text(
-                  "Note: The email you entered will be registered with the device's ID so that you can only login to the app using the above entered email only. You can reset the associated device later.",
-                  style: theme.textTheme.bodySmall,
+                padding: const EdgeInsets.symmetric(horizontal: 20),
+                child: TextField(
+                  controller: _password,
+                  obscureText: true,
+                  decoration: InputDecoration(
+                      labelText: 'Enter Password',
+                      border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(20)),
+                      errorText: _passwordError),
+                ),
+              ),
+              const SizedBox(
+                height: 20,
+              ),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 20),
+                child: TextField(
+                  controller: _passwordRetype,
+                  obscureText: true,
+                  decoration: InputDecoration(
+                      labelText: 'Enter Password',
+                      border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(20)),
+                      errorText: _passwordRetypeError),
                 ),
               ),
               const SizedBox(
@@ -110,7 +152,7 @@ class _SignupPageState extends State<SignupPage> {
 
   _signup() async {
     final deviceId = DeviceDetails().getDeviceId();
-    final user = await _auth.createUserWithEmailAndDeviceId(
+    final user = await _auth.createUserWithEmailAndPassword(
         _email.text, deviceId.toString());
 
     if (user != null) {
