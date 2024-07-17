@@ -3,6 +3,8 @@ import 'package:exif_toolkit/authentication/device_details.dart';
 import 'package:exif_toolkit/authentication/input_validator.dart';
 import 'package:flutter/material.dart';
 
+import 'login_page.dart';
+
 class SignupPage extends StatefulWidget {
   const SignupPage({super.key});
 
@@ -142,7 +144,20 @@ class _SignupPageState extends State<SignupPage> {
                   'Sign up',
                   style: theme.textTheme.labelLarge,
                 ),
-              )
+              ),
+              const SizedBox(height: 100),
+              GestureDetector(
+                onTap: () {
+                  Navigator.pushReplacementNamed(context, '/login_page');
+                },
+                child: const Text(
+                  "Already have an Account? Log - In",
+                  style: TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
             ],
           ),
         ),

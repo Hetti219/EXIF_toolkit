@@ -1,7 +1,10 @@
 import 'package:exif_toolkit/authentication/auth_service.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'dart:developer';
+
+import 'home_page.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -95,7 +98,7 @@ class _LoginPageState extends State<LoginPage> {
 
     return Scaffold(
         appBar: AppBar(
-          title: Text('Login', style: theme.textTheme.headlineLarge),
+          title: Text('Login', style: theme.textTheme.headlineMedium),
           centerTitle: true,
           backgroundColor: theme.colorScheme.primary,
         ),
@@ -196,10 +199,10 @@ class _LoginPageState extends State<LoginPage> {
 
     if (user != null) {
       log("User Logged Successfully!");
-      /*Navigator.pushReplacement(
+      Navigator.pushReplacement(
         context,
-        MaterialPageRoute(builder: (context) => const MainHomePage()),
-      );*/
+        MaterialPageRoute(builder: (context) => const HomePage()),
+      );
     } else {
       log("Login failed!");
       ScaffoldMessenger.of(context).showSnackBar(

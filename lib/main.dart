@@ -1,5 +1,6 @@
-import 'package:exif_toolkit/authentication/login_page.dart';
-import 'package:exif_toolkit/authentication/signup_page.dart';
+import 'package:exif_toolkit/pages/login_page.dart';
+import 'package:exif_toolkit/pages/signup_page.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
@@ -23,38 +24,49 @@ class EXIFDataManipulatorApp extends StatelessWidget {
     return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(
-        useMaterial3: true,
+        useMaterial3: false,
         colorScheme: ColorScheme.fromSeed(
-          seedColor: Colors.grey[800]!, // Dark grey as the base color
-          brightness: Brightness.dark, // Dark mode for a tech-focused feel
+          seedColor: const Color(0xFFFFFFFF), // Pure white background
+          brightness: Brightness.light,
         ),
-        textTheme: GoogleFonts.robotoMonoTextTheme(
-          TextTheme(
-            headlineMedium: const TextStyle(
-              fontSize: 20,
-              fontWeight: FontWeight.bold,
-              color: Colors.white, // White for headings for contrast
-            ),
-            bodyMedium: TextStyle(
-              fontSize: 16,
-              color: Colors.grey[300], // Light grey for body text
-            ),
-            labelLarge: const TextStyle(
-              // Style for button labels
-              color: Colors.white,
-            ),
+        textTheme: GoogleFonts.robotoTextTheme(
+          Theme.of(context).textTheme,
+        ).copyWith(
+          headlineMedium: const TextStyle(
+            fontFamily: 'SF Pro Display', // If you have the SF Pro font
+            fontSize: 20,
+            fontWeight: FontWeight.w600,
+            color: Colors.black,
+          ),
+          bodyMedium: const TextStyle(
+            fontFamily: 'SF Pro Text', // If you have the SF Pro font
+            fontSize: 16,
+            color: Colors.black,
+          ),
+          labelLarge: const TextStyle(
+            fontFamily: 'SF Pro Text', // If you have the SF Pro font
+            color: Colors.white,
           ),
         ),
-        scaffoldBackgroundColor: Colors.grey[900],
-        // Dark background
-        appBarTheme: AppBarTheme(
-          backgroundColor: Colors.grey[800], // Slightly lighter app bar
-          elevation: 0, // Remove shadow for a modern look
+        scaffoldBackgroundColor: Colors.white,
+        // Pure white background
+        appBarTheme: const AppBarTheme(
+          backgroundColor: Colors.white,
+          elevation: 0.5, // Subtle elevation for iOS look
+          titleTextStyle: TextStyle(
+            fontFamily: 'SF Pro Display', // If you have the SF Pro font
+            color: Colors.black,
+            fontWeight: FontWeight.bold,
+          ),
+          iconTheme: IconThemeData(color: Colors.black),
         ),
         elevatedButtonTheme: ElevatedButtonThemeData(
           style: ElevatedButton.styleFrom(
-            backgroundColor: Colors.blue[600], // Blue buttons for interaction
+            backgroundColor: const Color(0xFF007AFF), // iOS blue
             foregroundColor: Colors.white,
+            textStyle: const TextStyle(
+              fontFamily: 'SF Pro Text', // If you have the SF Pro font
+            ),
           ),
         ),
         pageTransitionsTheme: PageTransitionsTheme(
@@ -62,6 +74,10 @@ class EXIFDataManipulatorApp extends StatelessWidget {
             TargetPlatform.values,
             value: (dynamic _) => const CupertinoPageTransitionsBuilder(),
           ),
+        ),
+        // Add more Cupertino-specific styling as needed
+        cupertinoOverrideTheme: const CupertinoThemeData(
+          primaryColor: Color(0xFF007AFF), // iOS blue as primary color
         ),
       ),
       home: const LoginPage(),
