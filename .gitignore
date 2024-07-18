@@ -4,7 +4,6 @@
 *.pyc
 *.swp
 *.json
-*.lock
 .env
 .DS_Store
 .atom/
