@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:exif_toolkit/pages/login_page.dart';
 import 'package:exif_toolkit/pages/signup_page.dart';
 import 'package:flutter/cupertino.dart';
@@ -11,6 +12,8 @@ Future<void> main() async {
   WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
   FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+  FirebaseFirestore.instance.settings =
+      const Settings(persistenceEnabled: true);
   FlutterNativeSplash.remove();
   runApp(const EXIFDataManipulatorApp());
 }
