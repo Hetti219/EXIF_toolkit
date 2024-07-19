@@ -1,5 +1,4 @@
 import 'package:exif_toolkit/authentication/auth_service.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'dart:developer';
@@ -194,20 +193,29 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   _login() async {
-    final user =
-        await _auth.loginUserWithEmailAndPassword(_email.text, _password.text);
+    try {
+      final user = await _auth.loginUserWithEmailAndPassword(
+          _email.text, _password.text);
 
-    if (user != null) {
-      log("User Logged Successfully!");
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(builder: (context) => const HomePage()),
-      );
-    } else {
-      log("Login failed!");
+      if (user != null) {
+        log("User Logged Successfully!");
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => const HomePage()),
+        );
+      }
+    } on FirebaseAuthException catch (e) {
+      log("Login failed: $e");
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
             content: Text('Login failed. Please check your credentials.')),
+      );
+    } catch (e) {
+      log("Login failed! Other error: $e"); //Log errors for debugging
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(e.toString()),
+        ),
       );
     }
   }
