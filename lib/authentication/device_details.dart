@@ -17,9 +17,6 @@ class DeviceDetails {
       } else if (Platform.isIOS) {
         IosDeviceInfo iosInfo = await deviceInfo.iosInfo;
         deviceId = iosInfo.identifierForVendor;
-      } else if (Platform.isFuchsia) {
-        WebBrowserInfo webBrowserInfo = await deviceInfo.webBrowserInfo;
-        deviceId = webBrowserInfo.vendor;
       }
     } catch (e) {
       ScaffoldMessenger.of(context!).showSnackBar(SnackBar(
