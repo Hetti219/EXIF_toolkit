@@ -2,8 +2,7 @@ import 'package:exif_toolkit/authentication/auth_service.dart';
 import 'package:exif_toolkit/authentication/device_details.dart';
 import 'package:exif_toolkit/authentication/input_validator.dart';
 import 'package:flutter/material.dart';
-
-import 'login_page.dart';
+import 'dart:developer';
 
 class SignupPage extends StatefulWidget {
   const SignupPage({super.key});
@@ -166,21 +165,32 @@ class _SignupPageState extends State<SignupPage> {
   }
 
   _signup() async {
-    final deviceId = DeviceDetails().getDeviceId();
-    final user = await _auth.createUserWithEmailAndPassword(
-        _email.text, deviceId.toString());
+    try {
+      final deviceId = await DeviceDetails().getDeviceId();
+      final user = await _auth.createUserWithEmailAndPassword(
+          _email.text, deviceId.toString());
 
-    if (user != null) {
-      Navigator.pushReplacementNamed(context, '/login_page');
+      log(deviceId!);
+
+      if (user != null) {
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+            content: Text(
+          "User Sign up successful.",
+          style: Theme.of(context).textTheme.bodyMedium,
+        )));
+        Navigator.pushReplacementNamed(context, '/login_page');
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+            content: Text(
+          "Sign up failed.",
+          style: Theme.of(context).textTheme.bodyMedium,
+        )));
+      }
+    } catch (e) {
+      // Handle errors (e.g., email already in use, invalid device ID)
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
           content: Text(
-        "User Sign up successful.",
-        style: Theme.of(context).textTheme.bodyMedium,
-      )));
-    } else {
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-          content: Text(
-        "Sign up failed.",
+        "Sign up failed. Error: $e",
         style: Theme.of(context).textTheme.bodyMedium,
       )));
     }
