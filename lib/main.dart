@@ -25,6 +25,7 @@ class EXIFDataManipulatorApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      supportedLocales: const [Locale('en')],
       title: 'Flutter Demo',
       theme: ThemeData(
         useMaterial3: false,
