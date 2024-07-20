@@ -1,6 +1,6 @@
 class Device {
-  final String? userId;
-  final String? deviceId;
+  String userId;
+  String deviceId;
 
   Device({required this.userId, required this.deviceId});
 

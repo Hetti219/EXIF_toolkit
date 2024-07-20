@@ -1,10 +1,9 @@
 import 'package:device_info_plus/device_info_plus.dart';
 import 'dart:io';
-import 'package:flutter/material.dart';
+
+import 'package:flutter/foundation.dart';
 
 class DeviceDetails {
-  BuildContext? get context => null;
-
   //Get device ID
   Future<String?> getDeviceId() async {
     DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();
@@ -19,11 +18,10 @@ class DeviceDetails {
         deviceId = iosInfo.identifierForVendor;
       }
     } catch (e) {
-      ScaffoldMessenger.of(context!).showSnackBar(SnackBar(
-          content: Text(
-        'Error sending Account Device Reset email: $e',
-        style: Theme.of(context!).textTheme.bodyMedium,
-      )));
+      // Handle the error here (consider logging or throwing an exception)
+      if (kDebugMode) {
+        print('Error getting device ID: $e');
+      } // Log the error for debugging
     }
 
     return deviceId;

@@ -9,7 +9,7 @@ class DatabaseService {
   final _auth = FirebaseAuth.instance;
   final _firestore = FirebaseFirestore.instance;
 
-  late final CollectionReference _deviceRef;
+  late final CollectionReference<Device> _deviceRef;
 
   DatabaseService() {
     _deviceRef = _firestore
@@ -19,20 +19,29 @@ class DatabaseService {
             toFirestore: (device, _) => device.toJson());
   }
 
-  Stream<QuerySnapshot> getDevices() {
+  /*Stream<QuerySnapshot> getDevices() {
     String? userId = _auth.currentUser?.uid;
 
+    if (userId == null) {
+      return const Stream.empty(); // Handle case where user is not signed in
+    }
+
     return _deviceRef.where('userId', isEqualTo: userId).snapshots();
-  }
+  }*/
 
   Future<void> addDevice(Device device) async {
     String? userId = _auth.currentUser?.uid;
+
+    if (userId == null) {
+      throw Exception('User is not signed in, cannot add device');
+    }
 
     device = device.copyWith(userId: userId);
     try {
       await _deviceRef.add(device);
     } catch (e) {
       log('Error adding device to Firestore: $e');
+      // Consider rethrowing or returning a Future with an error
     }
   }
 
