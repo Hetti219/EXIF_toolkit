@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:exif_toolkit/pages/home_page.dart';
 import 'package:exif_toolkit/pages/login_page.dart';
 import 'package:exif_toolkit/pages/signup_page.dart';
 import 'package:flutter/cupertino.dart';
@@ -21,74 +22,67 @@ Future<void> main() async {
 class EXIFDataManipulatorApp extends StatelessWidget {
   const EXIFDataManipulatorApp({super.key});
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       supportedLocales: const [Locale('en')],
       title: 'Flutter Demo',
       theme: ThemeData(
-        useMaterial3: false,
+        useMaterial3: true,
         colorScheme: ColorScheme.fromSeed(
-          seedColor: const Color(0xFFFFFFFF), // Pure white background
-          brightness: Brightness.light,
+          seedColor: const Color(0xFF1877F2), // Facebook blue as the base color
+          brightness: Brightness.light, // Facebook uses a light theme
         ),
         textTheme: GoogleFonts.robotoTextTheme(
-          Theme.of(context).textTheme,
-        ).copyWith(
-          headlineMedium: const TextStyle(
-            fontFamily: 'SF Pro Display', // If you have the SF Pro font
-            fontSize: 20,
-            fontWeight: FontWeight.w600,
-            color: Colors.black,
-          ),
-          bodyMedium: const TextStyle(
-            fontFamily: 'SF Pro Text', // If you have the SF Pro font
-            fontSize: 16,
-            color: Colors.black,
-          ),
-          labelLarge: const TextStyle(
-            fontFamily: 'SF Pro Text', // If you have the SF Pro font
-            color: Colors.white,
-          ),
-        ),
-        scaffoldBackgroundColor: Colors.white,
-        // Pure white background
-        appBarTheme: const AppBarTheme(
-          backgroundColor: Colors.white,
-          elevation: 0.5, // Subtle elevation for iOS look
-          titleTextStyle: TextStyle(
-            fontFamily: 'SF Pro Display', // If you have the SF Pro font
-            color: Colors.black,
-            fontWeight: FontWeight.bold,
-          ),
-          iconTheme: IconThemeData(color: Colors.black),
-        ),
-        elevatedButtonTheme: ElevatedButtonThemeData(
-          style: ElevatedButton.styleFrom(
-            backgroundColor: const Color(0xFF007AFF), // iOS blue
-            foregroundColor: Colors.white,
-            textStyle: const TextStyle(
-              fontFamily: 'SF Pro Text', // If you have the SF Pro font
+          // Using Roboto, a common font for social media apps
+          const TextTheme(
+            headlineMedium: TextStyle(
+              fontSize: 20,
+              fontWeight: FontWeight.bold,
+              color: Colors.black, // Black for titles and headings
+            ),
+            bodyMedium: TextStyle(
+              fontSize: 16,
+              color: Colors.black, // Black for body text
+            ),
+            labelLarge: TextStyle(
+              // Style for button labels
+              color: Colors.white,
             ),
           ),
         ),
+        scaffoldBackgroundColor: Colors.white,
+        // White background
+        appBarTheme: const AppBarTheme(
+          backgroundColor: Color(0xFF1877F2), // Facebook blue app bar
+          elevation: 1, // Subtle elevation
+          titleTextStyle: TextStyle(
+            fontFamily: 'Roboto',
+            color: Colors.white, // White title text
+            fontWeight: FontWeight.bold,
+          ),
+          iconTheme: IconThemeData(color: Colors.white), // White icons
+        ),
+        elevatedButtonTheme: ElevatedButtonThemeData(
+          style: ElevatedButton.styleFrom(
+            backgroundColor: const Color(0xFF1877F2), // Facebook blue buttons
+            foregroundColor: Colors.white, // White text on buttons
+          ),
+        ),
+        // You can keep the CupertinoPageTransitionsBuilder if you prefer that style
         pageTransitionsTheme: PageTransitionsTheme(
           builders: Map<TargetPlatform, PageTransitionsBuilder>.fromIterable(
             TargetPlatform.values,
             value: (dynamic _) => const CupertinoPageTransitionsBuilder(),
           ),
         ),
-        // Add more Cupertino-specific styling as needed
-        cupertinoOverrideTheme: const CupertinoThemeData(
-          primaryColor: Color(0xFF007AFF), // iOS blue as primary color
-        ),
       ),
       home: const LoginPage(),
       routes: {
         '/signup_page': (context) => const SignupPage(),
-        '/login_page': (context) => const LoginPage()
-      }, //Page Routes
+        '/login_page': (context) => const LoginPage(),
+        '/home_page': (context) => const HomePage()
+      }
     );
   }
 }
