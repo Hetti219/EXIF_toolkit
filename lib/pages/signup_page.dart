@@ -70,7 +70,8 @@ class _SignupPageState extends State<SignupPage> {
     return Scaffold(
       appBar: AppBar(
         title: Text('Sign up', style: theme.textTheme.headlineMedium),
-        backgroundColor: theme.colorScheme.primary,
+        centerTitle: true,
+        //backgroundColor: theme.colorScheme.primary,
       ),
       body: SingleChildScrollView(
         child: Center(
@@ -144,7 +145,7 @@ class _SignupPageState extends State<SignupPage> {
                   style: theme.textTheme.labelLarge,
                 ),
               ),
-              const SizedBox(height: 100),
+              const SizedBox(height: 90),
               GestureDetector(
                 onTap: () {
                   Navigator.pushReplacementNamed(context, '/login_page');
@@ -166,11 +167,9 @@ class _SignupPageState extends State<SignupPage> {
 
   _signup() async {
     try {
-      final deviceId = await DeviceDetails().getDeviceId();
+      // final deviceId = await DeviceDetails().getDeviceId();
       final user = await _auth.createUserWithEmailAndPassword(
-          _email.text, deviceId.toString());
-
-      log(deviceId!);
+          _email.text, _password.text);
 
       if (user != null) {
         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
@@ -187,7 +186,6 @@ class _SignupPageState extends State<SignupPage> {
         )));
       }
     } catch (e) {
-      // Handle errors (e.g., email already in use, invalid device ID)
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
           content: Text(
         "Sign up failed. Error: $e",

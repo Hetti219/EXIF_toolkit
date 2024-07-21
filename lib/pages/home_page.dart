@@ -10,6 +10,16 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
-    return const Scaffold();
+    final _theme = Theme.of(context);
+
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(
+          'Select an image',
+          style: _theme.textTheme.headlineMedium,
+        ),
+        centerTitle: true,
+      ),
+    );
   }
 }

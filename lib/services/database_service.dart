@@ -41,7 +41,6 @@ class DatabaseService {
       await _deviceRef.add(device);
     } catch (e) {
       log('Error adding device to Firestore: $e');
-      // Consider rethrowing or returning a Future with an error
     }
   }
 

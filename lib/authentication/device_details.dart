@@ -18,10 +18,9 @@ class DeviceDetails {
         deviceId = iosInfo.identifierForVendor;
       }
     } catch (e) {
-      // Handle the error here (consider logging or throwing an exception)
       if (kDebugMode) {
         print('Error getting device ID: $e');
-      } // Log the error for debugging
+      }
     }
 
     return deviceId;

@@ -3,8 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'dart:developer';
 
-import 'home_page.dart';
-
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
 
@@ -50,7 +48,7 @@ class _LoginPageState extends State<LoginPage> {
                   },
                   child: Text(
                     'Cancel',
-                    style: theme.textTheme.labelLarge,
+                    style: theme.textTheme.bodyMedium,
                   )),
               TextButton(
                   onPressed: () async {
@@ -84,7 +82,7 @@ class _LoginPageState extends State<LoginPage> {
                   },
                   child: Text(
                     'Send Reset Link',
-                    style: theme.textTheme.labelLarge,
+                    style: theme.textTheme.bodyMedium,
                   ))
             ],
           );
@@ -99,7 +97,7 @@ class _LoginPageState extends State<LoginPage> {
         appBar: AppBar(
           title: Text('Login', style: theme.textTheme.headlineMedium),
           centerTitle: true,
-          backgroundColor: theme.colorScheme.primary,
+          //backgroundColor: theme.colorScheme.inversePrimary,
         ),
         body: SingleChildScrollView(
           child: Center(
@@ -199,10 +197,7 @@ class _LoginPageState extends State<LoginPage> {
 
       if (user != null) {
         log("User Logged Successfully!");
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(builder: (context) => const HomePage()),
-        );
+        Navigator.pushReplacementNamed(context, '/home_page');
       }
     } on FirebaseAuthException catch (e) {
       log("Login failed: $e");
@@ -210,13 +205,13 @@ class _LoginPageState extends State<LoginPage> {
         const SnackBar(
             content: Text('Login failed. Please check your credentials.')),
       );
-    } catch (e) {
-      log("Login failed! Other error: $e"); //Log errors for debugging
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text(e.toString()),
-        ),
-      );
+      // } catch (e) {
+      //   log("Login failed! Other error: $e"); //Log errors for debugging
+      //   ScaffoldMessenger.of(context).showSnackBar(
+      //     SnackBar(
+      //       content: Text(e.toString()),
+      //     ),
+      //   );
     }
   }
 }
