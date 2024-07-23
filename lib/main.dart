@@ -77,12 +77,13 @@ class EXIFDataManipulatorApp extends StatelessWidget {
           ),
         ),
       ),
-      home: const LoginPage(),
+      home: const HomePage(),
       routes: {
         '/signup_page': (context) => const SignupPage(),
         '/login_page': (context) => const LoginPage(),
         '/home_page': (context) => const HomePage()
-      }
+      },
+      debugShowCheckedModeBanner: false,
     );
   }
 }

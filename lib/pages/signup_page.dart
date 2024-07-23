@@ -96,6 +96,7 @@ class _SignupPageState extends State<SignupPage> {
                   controller: _email,
                   keyboardType: TextInputType.emailAddress,
                   decoration: InputDecoration(
+                      icon: const Icon(Icons.email_outlined),
                       labelText: 'Enter Email',
                       border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(20)),
@@ -111,6 +112,7 @@ class _SignupPageState extends State<SignupPage> {
                   controller: _password,
                   obscureText: true,
                   decoration: InputDecoration(
+                      icon: const Icon(Icons.password_outlined),
                       labelText: 'Enter Password',
                       border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(20)),
@@ -126,6 +128,7 @@ class _SignupPageState extends State<SignupPage> {
                   controller: _passwordRetype,
                   obscureText: true,
                   decoration: InputDecoration(
+                      icon: const Icon(Icons.password_outlined),
                       labelText: 'Enter Password',
                       border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(20)),
