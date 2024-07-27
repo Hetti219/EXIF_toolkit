@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:exif/exif.dart';
 import 'dart:io';
-import 'package:permission_handler/permission_handler.dart';
-import 'package:path_provider/path_provider.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -14,6 +13,7 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   File? galleryFile;
   final picker = ImagePicker();
+  late Map<String, dynamic>? exifData = null;
 
   @override
   Widget build(BuildContext context) {
@@ -56,13 +56,31 @@ class _HomePageState extends State<HomePage> {
                           child: Image.file(galleryFile!),
                         ),
                 ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 18),
-                  child: Text(
-                    'GFG',
-                    style: theme.textTheme.bodyMedium,
+                if (exifData != null)
+                  Column(
+                    children: exifData!.entries.map((entry) {
+                      return ListTile(
+                        title: Text(entry.key),
+                        subtitle: TextField(
+                          controller: TextEditingController(
+                              text: entry.value.toString()),
+                          onChanged: (value) {
+                            // Update the exifData map with the new value
+                            exifData![entry.key] = value;
+                          },
+                        ),
+                      );
+                    }).toList(),
                   ),
-                )
+                // Add a button to save the modified EXIF data (explained later)
+                ElevatedButton(
+                  onPressed: () => saveModifiedExif(context),
+                  // Call the save function
+                  child: Text(
+                    'Save Modified EXIF',
+                    style: theme.textTheme.labelLarge,
+                  ),
+                ),
               ],
             ),
           );
@@ -71,6 +89,7 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
+  //Methods fro image picking
   void _showPicker({required BuildContext context}) {
     showModalBottomSheet(
         context: context,
@@ -108,36 +127,35 @@ class _HomePageState extends State<HomePage> {
 
   Future getImage(ImageSource img) async {
     final pickedFile = await picker.pickImage(source: img);
-    XFile? xFilePick = pickedFile;
-    setState(() {
-      if (xFilePick != null) {
-        galleryFile = File(pickedFile!.path);
-      } else {
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-            content: Text(
-          'No image selected',
-          style: Theme.of(context).textTheme.bodyMedium,
-        )));
-      }
-    });
+    if (pickedFile != null) {
+      setState(() {
+        galleryFile = File(pickedFile.path);
+      });
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          content: Text(
+        'No image selected',
+        style: Theme.of(context).textTheme.bodyMedium,
+      )));
+    }
   }
 
-  Future<List<FileSystemEntity>> getImages() async {
-    final status = await Permission.storage.request();
-    if (!status.isGranted) {
-      throw Exception('Storage permission denied');
+  //Methods for EXIF data manipulation
+  Future<Map<String, dynamic>?> getExifData(File imageFile) async {
+    final exifData = await readExifFromFile(imageFile);
+    if (exifData != null) {
+      final exifMap = <String, dynamic>{};
+      exifData.forEach((tag, value) {
+        exifMap[tag.toString()] = value.toString();
+      });
+      return exifMap;
+    } else {
+      return null;
     }
+  }
 
-    final directory = (await getExternalStorageDirectory())!;
-    final imagePath = directory.path;
-
-    final allFiles = Directory(imagePath).list(recursive: true);
-    final imageFiles = allFiles.where((entity) =>
-        entity is File &&
-        (entity.path.endsWith('.jpg') ||
-            entity.path.endsWith('.png') ||
-            entity.path.endsWith('.jpeg')));
-
-    return imageFiles.toList();
+  Future<void> saveModifiedExif(BuildContext context) async {
+    ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Saving EXIF not implemented yet')));
   }
 }
