@@ -44,6 +44,7 @@ dependencies:
   cloud_firestore: ^5.1.0
   image_picker: ^1.1.2
   exif: ^3.3.0
+  flutter_exif_plugin: ^1.1.0
 
 dev_dependencies:
   flutter_test:
