@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_exif_plugin/tags.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:exif/exif.dart';
+import 'package:flutter_exif_plugin/flutter_exif_plugin.dart';
 import 'dart:io';
 
 class HomePage extends StatefulWidget {
@@ -13,7 +14,7 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   File? galleryFile;
   final picker = ImagePicker();
-  late Map<String, dynamic>? exifData = null;
+  Map<String, dynamic>? exifData;
 
   @override
   Widget build(BuildContext context) {
@@ -57,7 +58,8 @@ class _HomePageState extends State<HomePage> {
                         ),
                 ),
                 if (exifData != null)
-                  Column(
+                  SingleChildScrollView(
+                      child: Column(
                     children: exifData!.entries.map((entry) {
                       return ListTile(
                         title: Text(entry.key),
@@ -71,7 +73,7 @@ class _HomePageState extends State<HomePage> {
                         ),
                       );
                     }).toList(),
-                  ),
+                  )),
                 // Add a button to save the modified EXIF data (explained later)
                 ElevatedButton(
                   onPressed: () => saveModifiedExif(context),
@@ -131,6 +133,12 @@ class _HomePageState extends State<HomePage> {
       setState(() {
         galleryFile = File(pickedFile.path);
       });
+
+      // Call getExifData to fetch EXIF data
+      final exifData = await getExifData(galleryFile!);
+      setState(() {
+        this.exifData = exifData;
+      });
     } else {
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
           content: Text(
@@ -142,16 +150,23 @@ class _HomePageState extends State<HomePage> {
 
   //Methods for EXIF data manipulation
   Future<Map<String, dynamic>?> getExifData(File imageFile) async {
-    final exifData = await readExifFromFile(imageFile);
-    if (exifData != null) {
-      final exifMap = <String, dynamic>{};
-      exifData.forEach((tag, value) {
-        exifMap[tag.toString()] = value.toString();
-      });
-      return exifMap;
-    } else {
-      return null;
-    }
+    final imageBytes = await imageFile.readAsBytes();
+    final exif = await FlutterExif.fromBytes(imageBytes);
+
+    final exifMap = <String, dynamic>{};
+    exifMap['DateTimeOriginal'] = exif.getAttribute(TAG_DATETIME_ORIGINAL);
+    exifMap['make'] = exif.getAttribute(TAG_MAKE);
+    exifMap['model'] = exif.getAttribute(TAG_MODEL);
+    exifMap['exposureTime'] = exif.getAttribute(TAG_EXPOSURE_TIME);
+    exifMap['fNumber'] = exif.getAttribute(TAG_F_NUMBER);
+    exifMap['isoSpeedRatings'] = exif.getAttribute(TAG_ISO_SPEED);
+    exifMap['focalLength'] = exif.getAttribute(TAG_FOCAL_LENGTH);
+    exifMap['focalLengthIn35mmFilm'] =
+        exif.getAttribute(TAG_FOCAL_LENGTH_IN_35MM_FILM);
+    exifMap['latitude'] = exif.getAttribute(TAG_GPS_LATITUDE);
+    exifMap['longitude'] = exif.getAttribute(TAG_GPS_LONGITUDE);
+
+    return exifMap;
   }
 
   Future<void> saveModifiedExif(BuildContext context) async {
