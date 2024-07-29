@@ -31,61 +31,60 @@ class _HomePageState extends State<HomePage> {
       body: Builder(
         builder: (BuildContext context) {
           return Center(
+              child: SingleChildScrollView(
             child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                ElevatedButton(
-                  onPressed: () {
-                    _showPicker(context: context);
-                  },
-                  child: Text(
-                    'Select image to access EXIF data',
-                    style: theme.textTheme.labelLarge,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  ElevatedButton(
+                    onPressed: () {
+                      _showPicker(context: context);
+                    },
+                    child: Text(
+                      'Select image to access EXIF data',
+                      style: theme.textTheme.labelLarge,
+                    ),
                   ),
-                ),
-                const SizedBox(height: 20),
-                SizedBox(
-                  height: 200,
-                  width: 300,
-                  child: galleryFile == null
-                      ? Center(
-                          child: Text(
-                          'File not selected',
-                          style: theme.textTheme.bodyMedium,
-                        ))
-                      : Center(
-                          child: Image.file(galleryFile!),
-                        ),
-                ),
-                if (exifData != null)
-                  SingleChildScrollView(
-                      child: Column(
-                    children: exifData!.entries.map((entry) {
-                      return ListTile(
-                        title: Text(entry.key),
-                        subtitle: TextField(
-                          controller: TextEditingController(
-                              text: entry.value.toString()),
-                          onChanged: (value) {
-                            // Update the exifData map with the new value
-                            exifData![entry.key] = value;
-                          },
-                        ),
-                      );
-                    }).toList(),
-                  )),
-                // Add a button to save the modified EXIF data (explained later)
-                ElevatedButton(
-                  onPressed: () => saveModifiedExif(context),
-                  // Call the save function
-                  child: Text(
-                    'Save Modified EXIF',
-                    style: theme.textTheme.labelLarge,
+                  const SizedBox(height: 20),
+                  SizedBox(
+                    height: 200,
+                    width: 300,
+                    child: galleryFile == null
+                        ? Center(
+                            child: Text(
+                            'File not selected',
+                            style: theme.textTheme.bodyMedium,
+                          ))
+                        : Center(
+                            child: Image.file(galleryFile!),
+                          ),
                   ),
-                ),
-              ],
-            ),
-          );
+                  if (exifData != null)
+                    Column(
+                      children: exifData!.entries.map((entry) {
+                        return ListTile(
+                          title: Text(entry.key),
+                          subtitle: TextField(
+                            controller: TextEditingController(
+                                text: entry.value.toString()),
+                            onChanged: (value) {
+                              // Update the exifData map with the new value
+                              exifData![entry.key] = value;
+                            },
+                          ),
+                        );
+                      }).toList(),
+                    ),
+                  // Add a button to save the modified EXIF data (explained later)
+                  ElevatedButton(
+                    onPressed: () => saveModifiedExif(context),
+                    // Call the save function
+                    child: Text(
+                      'Save Modified EXIF',
+                      style: theme.textTheme.labelLarge,
+                    ),
+                  ),
+                ]),
+          ));
         },
       ),
     );
@@ -151,20 +150,20 @@ class _HomePageState extends State<HomePage> {
   //Methods for EXIF data manipulation
   Future<Map<String, dynamic>?> getExifData(File imageFile) async {
     final imageBytes = await imageFile.readAsBytes();
-    final exif = await FlutterExif.fromBytes(imageBytes);
+    final exif = FlutterExif.fromBytes(imageBytes);
 
     final exifMap = <String, dynamic>{};
-    exifMap['DateTimeOriginal'] = exif.getAttribute(TAG_DATETIME_ORIGINAL);
-    exifMap['make'] = exif.getAttribute(TAG_MAKE);
-    exifMap['model'] = exif.getAttribute(TAG_MODEL);
-    exifMap['exposureTime'] = exif.getAttribute(TAG_EXPOSURE_TIME);
-    exifMap['fNumber'] = exif.getAttribute(TAG_F_NUMBER);
-    exifMap['isoSpeedRatings'] = exif.getAttribute(TAG_ISO_SPEED);
-    exifMap['focalLength'] = exif.getAttribute(TAG_FOCAL_LENGTH);
-    exifMap['focalLengthIn35mmFilm'] =
+    exifMap['Date Time Original'] = exif.getAttribute(TAG_DATETIME_ORIGINAL);
+    exifMap['Make'] = exif.getAttribute(TAG_MAKE);
+    exifMap['Model'] = exif.getAttribute(TAG_MODEL);
+    exifMap['Exposure Time'] = exif.getAttribute(TAG_EXPOSURE_TIME);
+    exifMap['F Number'] = exif.getAttribute(TAG_F_NUMBER);
+    exifMap['ISO Speed Ratings'] = exif.getAttribute(TAG_ISO_SPEED);
+    exifMap['Focal Length'] = exif.getAttribute(TAG_FOCAL_LENGTH);
+    exifMap['Focal Length in 35mm Film'] =
         exif.getAttribute(TAG_FOCAL_LENGTH_IN_35MM_FILM);
-    exifMap['latitude'] = exif.getAttribute(TAG_GPS_LATITUDE);
-    exifMap['longitude'] = exif.getAttribute(TAG_GPS_LONGITUDE);
+    exifMap['Latitude'] = exif.getAttribute(TAG_GPS_LATITUDE);
+    exifMap['Longitude'] = exif.getAttribute(TAG_GPS_LONGITUDE);
 
     return exifMap;
   }
