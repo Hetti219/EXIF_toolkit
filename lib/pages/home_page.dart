@@ -1,3 +1,5 @@
+import 'dart:typed_data';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_exif_plugin/tags.dart';
 import 'package:image_picker/image_picker.dart';
@@ -153,23 +155,75 @@ class _HomePageState extends State<HomePage> {
     final exif = FlutterExif.fromBytes(imageBytes);
 
     final exifMap = <String, dynamic>{};
-    exifMap['Date Time Original'] = exif.getAttribute(TAG_DATETIME_ORIGINAL);
-    exifMap['Make'] = exif.getAttribute(TAG_MAKE);
-    exifMap['Model'] = exif.getAttribute(TAG_MODEL);
-    exifMap['Exposure Time'] = exif.getAttribute(TAG_EXPOSURE_TIME);
-    exifMap['F Number'] = exif.getAttribute(TAG_F_NUMBER);
-    exifMap['ISO Speed Ratings'] = exif.getAttribute(TAG_ISO_SPEED);
-    exifMap['Focal Length'] = exif.getAttribute(TAG_FOCAL_LENGTH);
+    exifMap['Date Time Original'] =
+        await exif.getAttribute(TAG_DATETIME_ORIGINAL);
+    exifMap['Make'] = await exif.getAttribute(TAG_MAKE);
+    exifMap['Model'] = await exif.getAttribute(TAG_MODEL);
+    exifMap['Exposure Time'] = await exif.getAttribute(TAG_EXPOSURE_TIME);
+    exifMap['F Number'] = await exif.getAttribute(TAG_F_NUMBER);
+    exifMap['ISO Speed Ratings'] = await exif.getAttribute(TAG_ISO_SPEED);
+    exifMap['Focal Length'] = await exif.getAttribute(TAG_FOCAL_LENGTH);
     exifMap['Focal Length in 35mm Film'] =
-        exif.getAttribute(TAG_FOCAL_LENGTH_IN_35MM_FILM);
-    exifMap['Latitude'] = exif.getAttribute(TAG_GPS_LATITUDE);
-    exifMap['Longitude'] = exif.getAttribute(TAG_GPS_LONGITUDE);
+        await exif.getAttribute(TAG_FOCAL_LENGTH_IN_35MM_FILM);
+    exifMap['Latitude'] = await exif.getAttribute(TAG_GPS_LATITUDE);
+    exifMap['Longitude'] = await exif.getAttribute(TAG_GPS_LONGITUDE);
+    exifMap['Altitude'] = await exif.getAttribute(TAG_GPS_ALTITUDE);
+    exifMap['Pixel X Dimension'] =
+        await exif.getAttribute(TAG_PIXEL_X_DIMENSION);
+    exifMap['Pixel Y Dimension'] =
+        await exif.getAttribute(TAG_PIXEL_Y_DIMENSION);
+    exifMap['White Balance'] = await exif.getAttribute(TAG_WHITE_BALANCE);
+    exifMap['Metering Mode'] = await exif.getAttribute(TAG_METERING_MODE);
+    exifMap['Flash'] = await exif.getAttribute(TAG_FLASH);
+    exifMap['Lens Model'] = await exif.getAttribute(TAG_LENS_MODEL);
+    exifMap['Lens Serial Number'] =
+        await exif.getAttribute(TAG_LENS_SERIAL_NUMBER);
 
     return exifMap;
   }
 
   Future<void> saveModifiedExif(BuildContext context) async {
-    ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Saving EXIF not implemented yet')));
+    if (galleryFile == null || exifData == null) {
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          content: Text('No image or EXIF data to save',
+              style: Theme.of(context).textTheme.bodyMedium)));
+      return;
+    }
+
+    try {
+      final newImagePath =
+          '${galleryFile!.path}_modified.jpg'; // Adjust the path as needed
+      await galleryFile!.copy(newImagePath);
+
+      final newImageFile = File(newImagePath);
+      final imageBytes = await newImageFile.readAsBytes();
+      final exif = await FlutterExif.fromBytes(imageBytes);
+
+      // Set new EXIF attributes
+      await exif.setAttribute(
+          TAG_DATETIME_ORIGINAL, exifData!['Date Time Original']);
+      await exif.setAttribute(TAG_MAKE, exifData!['Make']);
+      await exif.setAttribute(TAG_MODEL, exifData!['Model']);
+      await exif.setAttribute(TAG_EXPOSURE_TIME, exifData!['Exposure Time']);
+      await exif.setAttribute(TAG_F_NUMBER, exifData!['F Number']);
+      await exif.setAttribute(TAG_ISO_SPEED, exifData!['ISO Speed Ratings']);
+      await exif.setAttribute(TAG_FOCAL_LENGTH, exifData!['Focal Length']);
+      await exif.setAttribute(TAG_FOCAL_LENGTH_IN_35MM_FILM,
+          exifData!['Focal Length in 35mm Film']);
+      await exif.setAttribute(TAG_GPS_LATITUDE, exifData!['Latitude']);
+      await exif.setAttribute(TAG_GPS_LONGITUDE, exifData!['Longitude']);
+
+      // Save the modified EXIF attributes back to the image
+      final newImageBytes = await exif.saveAttributes();
+      await newImageFile.writeAsBytes(newImageBytes as Uint8List);
+
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          content: Text('EXIF data saved successfully',
+              style: Theme.of(context).textTheme.bodyMedium)));
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          content: Text('Failed to save EXIF data: $e',
+              style: Theme.of(context).textTheme.bodyMedium)));
+    }
   }
 }
