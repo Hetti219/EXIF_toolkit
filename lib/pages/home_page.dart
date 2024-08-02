@@ -5,6 +5,8 @@ import 'package:flutter_exif_plugin/tags.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:flutter_exif_plugin/flutter_exif_plugin.dart';
 import 'dart:io';
+import 'dart:developer';
+import 'package:gallery_saver/gallery_saver.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -191,12 +193,11 @@ class _HomePageState extends State<HomePage> {
     }
 
     try {
-      final newImagePath = '${galleryFile!.path}_modified.jpg';
-      await galleryFile!.copy(newImagePath);
+      final tempImagePath = '${galleryFile!.path}_temp.jpg';
+      await galleryFile!.copy(tempImagePath);
 
-      final newImageFile = File(newImagePath);
-      final imageBytes = await newImageFile.readAsBytes();
-      final exif = FlutterExif.fromBytes(imageBytes);
+      final tempImageFile = File(tempImagePath);
+      final exif = FlutterExif.fromPath(tempImageFile.path);
 
       // Set new EXIF attributes
       await exif.setAttribute(
@@ -217,32 +218,34 @@ class _HomePageState extends State<HomePage> {
       await exif.setAttribute(
           TAG_GPS_LONGITUDE, exifData!['Longitude'].toString());
       await exif.setAttribute(
-          TAG_GPS_LONGITUDE, exifData!['Altitude'].toString());
+          TAG_GPS_ALTITUDE, exifData!['Altitude'].toString());
       await exif.setAttribute(
-          TAG_GPS_LONGITUDE, exifData!['Pixel X Dimension'].toString());
+          TAG_PIXEL_Y_DIMENSION, exifData!['Pixel X Dimension'].toString());
       await exif.setAttribute(
-          TAG_GPS_LONGITUDE, exifData!['Pixel Y Dimension'].toString());
+          TAG_PIXEL_Y_DIMENSION, exifData!['Pixel Y Dimension'].toString());
       await exif.setAttribute(
-          TAG_GPS_LONGITUDE, exifData!['White Balance'].toString());
+          TAG_WHITE_BALANCE, exifData!['White Balance'].toString());
       // await exif.setAttribute(
       //     TAG_GPS_LONGITUDE, exifData!['Metering Mode'].toString());
       // await exif.setAttribute(TAG_GPS_LONGITUDE, exifData!['Flash'].toString());
       await exif.setAttribute(
-          TAG_GPS_LONGITUDE, exifData!['Lens Model'].toString());
+          TAG_LENS_MODEL, exifData!['Lens Model'].toString());
       await exif.setAttribute(
-          TAG_GPS_LONGITUDE, exifData!['Lens Serial Number'].toString());
+          TAG_LENS_SERIAL_NUMBER, exifData!['Lens Serial Number'].toString());
 
-      // Save the modified EXIF attributes back to the image
-      final newImageBytes = await exif.saveAttributes();
-      await newImageFile.writeAsBytes(newImageBytes as Uint8List);
+      await exif.saveAttributes();
+      await tempImageFile.copy(galleryFile!.path);
+
+      //await File(tempImagePath).delete();
 
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
           content: Text('EXIF data saved successfully',
               style: Theme.of(context).textTheme.bodyMedium)));
-    } catch (e) {
+    } catch (e, s) {
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
           content: Text('Failed to save EXIF data: $e',
               style: Theme.of(context).textTheme.bodyMedium)));
+      log('Stack Trace: $s');
     }
   }
 }
