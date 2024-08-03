@@ -1,12 +1,9 @@
-import 'dart:typed_data';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_exif_plugin/tags.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:flutter_exif_plugin/flutter_exif_plugin.dart';
 import 'dart:io';
 import 'dart:developer';
-import 'package:gallery_saver/gallery_saver.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -153,8 +150,7 @@ class _HomePageState extends State<HomePage> {
 
   //Methods for EXIF data manipulation
   Future<Map<String, dynamic>?> getExifData(File imageFile) async {
-    final imageBytes = await imageFile.readAsBytes();
-    final exif = FlutterExif.fromBytes(imageBytes);
+    final exif = FlutterExif.fromPath(imageFile.path);
 
     final exifMap = <String, dynamic>{};
     exifMap['Date Time Original'] =
@@ -199,6 +195,8 @@ class _HomePageState extends State<HomePage> {
       final tempImageFile = File(tempImagePath);
       final exif = FlutterExif.fromPath(tempImageFile.path);
 
+      log('$galleryFile\n$tempImagePath');
+
       // Set new EXIF attributes
       await exif.setAttribute(
           TAG_DATETIME_ORIGINAL, exifData!['Date Time Original'].toString());
@@ -236,7 +234,7 @@ class _HomePageState extends State<HomePage> {
       await exif.saveAttributes();
       await tempImageFile.copy(galleryFile!.path);
 
-      //await File(tempImagePath).delete();
+      await File(tempImagePath).delete();
 
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
           content: Text('EXIF data saved successfully',
