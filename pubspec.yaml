@@ -43,9 +43,9 @@ dependencies:
   device_info_plus: ^10.1.0
   cloud_firestore: ^5.1.0
   image_picker: ^1.1.2
-  exif: ^3.3.0
   flutter_exif_plugin: ^1.1.0
-  gallery_saver: ^2.3.2
+  native_exif: ^0.6.0
+
 
 dev_dependencies:
   flutter_test:
@@ -99,3 +99,5 @@ flutter:
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages
 
+android:
+  kotlinVersion: '2.0.0'  # Replace with the version used by native_exif

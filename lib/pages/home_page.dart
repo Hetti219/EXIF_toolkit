@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_exif_plugin/tags.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:flutter_exif_plugin/flutter_exif_plugin.dart';
+import 'package:native_exif/native_exif.dart';
 import 'dart:io';
 import 'dart:developer';
 
@@ -150,7 +151,7 @@ class _HomePageState extends State<HomePage> {
 
   //Methods for EXIF data manipulation
   Future<Map<String, dynamic>?> getExifData(File imageFile) async {
-    final exif = FlutterExif.fromPath(imageFile.path);
+    final exif = await Exif.fromPath(imageFile.path);
 
     final exifMap = <String, dynamic>{};
     exifMap['Date Time Original'] =
@@ -171,8 +172,8 @@ class _HomePageState extends State<HomePage> {
     exifMap['Pixel Y Dimension'] =
         await exif.getAttribute(TAG_PIXEL_Y_DIMENSION);
     exifMap['White Balance'] = await exif.getAttribute(TAG_WHITE_BALANCE);
-    // exifMap['Metering Mode'] = await exif.getAttribute(TAG_METERING_MODE);
-    // exifMap['Flash'] = await exif.getAttribute(TAG_FLASH);
+    exifMap['Metering Mode'] = await exif.getAttribute(TAG_METERING_MODE);
+    exifMap['Flash'] = await exif.getAttribute(TAG_FLASH);
     exifMap['Lens Model'] = await exif.getAttribute(TAG_LENS_MODEL);
     exifMap['Lens Serial Number'] =
         await exif.getAttribute(TAG_LENS_SERIAL_NUMBER);
@@ -189,60 +190,47 @@ class _HomePageState extends State<HomePage> {
     }
 
     try {
-      final tempImagePath = '${galleryFile!.path}_temp.jpg';
-      await galleryFile!.copy(tempImagePath);
+      final exif = await Exif.fromPath(galleryFile!.path);
 
-      final tempImageFile = File(tempImagePath);
-      final exif = FlutterExif.fromPath(tempImageFile.path);
-
-      log('$galleryFile\n$tempImagePath');
+      log('$galleryFile');
 
       // Set new EXIF attributes
-      await exif.setAttribute(
-          TAG_DATETIME_ORIGINAL, exifData!['Date Time Original'].toString());
-      await exif.setAttribute(TAG_MAKE, exifData!['Make'].toString());
-      await exif.setAttribute(TAG_MODEL, exifData!['Model'].toString());
-      await exif.setAttribute(
-          TAG_EXPOSURE_TIME, exifData!['Exposure Time'].toString());
-      await exif.setAttribute(TAG_F_NUMBER, exifData!['F Number'].toString());
-      await exif.setAttribute(
-          TAG_ISO_SPEED, exifData!['ISO Speed Ratings'].toString());
-      await exif.setAttribute(
-          TAG_FOCAL_LENGTH, exifData!['Focal Length'].toString());
-      await exif.setAttribute(TAG_FOCAL_LENGTH_IN_35MM_FILM,
-          exifData!['Focal Length in 35mm Film'].toString());
-      await exif.setAttribute(
-          TAG_GPS_LATITUDE, exifData!['Latitude'].toString());
-      await exif.setAttribute(
-          TAG_GPS_LONGITUDE, exifData!['Longitude'].toString());
-      await exif.setAttribute(
-          TAG_GPS_ALTITUDE, exifData!['Altitude'].toString());
-      await exif.setAttribute(
-          TAG_PIXEL_Y_DIMENSION, exifData!['Pixel X Dimension'].toString());
-      await exif.setAttribute(
-          TAG_PIXEL_Y_DIMENSION, exifData!['Pixel Y Dimension'].toString());
-      await exif.setAttribute(
-          TAG_WHITE_BALANCE, exifData!['White Balance'].toString());
-      // await exif.setAttribute(
-      //     TAG_GPS_LONGITUDE, exifData!['Metering Mode'].toString());
-      // await exif.setAttribute(TAG_GPS_LONGITUDE, exifData!['Flash'].toString());
-      await exif.setAttribute(
-          TAG_LENS_MODEL, exifData!['Lens Model'].toString());
-      await exif.setAttribute(
-          TAG_LENS_SERIAL_NUMBER, exifData!['Lens Serial Number'].toString());
-
-      await exif.saveAttributes();
-      await tempImageFile.copy(galleryFile!.path);
-
-      await File(tempImagePath).delete();
+      await exif.writeAttribute(
+          TAG_DATETIME_ORIGINAL, exifData!['Date Time Original']);
+      await exif.writeAttribute(TAG_MAKE, exifData!['Make']);
+      await exif.writeAttribute(TAG_MODEL, exifData!['Model']);
+      await exif.writeAttribute(TAG_EXPOSURE_TIME, exifData!['Exposure Time']);
+      await exif.writeAttribute(TAG_F_NUMBER, exifData!['F Number']);
+      await exif.writeAttribute(TAG_ISO_SPEED, exifData!['ISO Speed Ratings']);
+      await exif.writeAttribute(TAG_FOCAL_LENGTH, exifData!['Focal Length']);
+      await exif.writeAttribute(TAG_FOCAL_LENGTH_IN_35MM_FILM,
+          exifData!['Focal Length in 35mm Film']);
+      await exif.writeAttribute(TAG_GPS_LATITUDE, exifData!['Latitude']);
+      await exif.writeAttribute(TAG_GPS_LONGITUDE, exifData!['Longitude']);
+      await exif.writeAttribute(TAG_GPS_ALTITUDE, exifData!['Altitude']);
+      await exif.writeAttribute(
+          TAG_PIXEL_Y_DIMENSION, exifData!['Pixel X Dimension']);
+      await exif.writeAttribute(
+          TAG_PIXEL_Y_DIMENSION, exifData!['Pixel Y Dimension']);
+      await exif.writeAttribute(TAG_WHITE_BALANCE, exifData!['White Balance']);
+      await exif.writeAttribute(TAG_METERING_MODE, exifData!['Metering Mode']);
+      await exif.writeAttribute(TAG_FLASH, exifData!['Flash']);
+      await exif.writeAttribute(TAG_LENS_MODEL, exifData!['Lens Model']);
+      await exif.writeAttribute(
+          TAG_LENS_SERIAL_NUMBER, exifData!['Lens Serial Number']);
 
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
           content: Text('EXIF data saved successfully',
               style: Theme.of(context).textTheme.bodyMedium)));
     } catch (e, s) {
+      String errorMessage = 'Failed to save EXIF data: $e';
+      if (e is PlatformException) {
+        errorMessage += '\nPlatform-specific error: ${e.message}';
+      }
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-          content: Text('Failed to save EXIF data: $e',
+          content: Text(errorMessage,
               style: Theme.of(context).textTheme.bodyMedium)));
+
       log('Stack Trace: $s');
     }
   }
