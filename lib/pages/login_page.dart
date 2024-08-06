@@ -207,13 +207,6 @@ class _LoginPageState extends State<LoginPage> {
         const SnackBar(
             content: Text('Login failed. Please check your credentials.')),
       );
-      // } catch (e) {
-      //   log("Login failed! Other error: $e"); //Log errors for debugging
-      //   ScaffoldMessenger.of(context).showSnackBar(
-      //     SnackBar(
-      //       content: Text(e.toString()),
-      //     ),
-      //   );
     }
   }
 }

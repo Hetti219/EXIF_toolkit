@@ -14,7 +14,7 @@ Future<void> main() async {
   FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   FirebaseFirestore.instance.settings =
-  const Settings(persistenceEnabled: true);
+      const Settings(persistenceEnabled: true);
   await Permission.manageExternalStorage.request();
   FlutterNativeSplash.remove();
   runApp(const EXIFDataManipulatorApp());
@@ -78,7 +78,7 @@ class EXIFDataManipulatorApp extends StatelessWidget {
           ),
         ),
       ),
-      home: const HomePage(),
+      home: const LoginPage(),
       routes: {
         '/signup_page': (context) => const SignupPage(),
         '/login_page': (context) => const LoginPage(),

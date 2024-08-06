@@ -1,8 +1,6 @@
 import 'package:exif_toolkit/authentication/auth_service.dart';
-import 'package:exif_toolkit/authentication/device_details.dart';
 import 'package:exif_toolkit/authentication/input_validator.dart';
 import 'package:flutter/material.dart';
-import 'dart:developer';
 
 class SignupPage extends StatefulWidget {
   const SignupPage({super.key});
