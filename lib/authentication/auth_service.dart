@@ -5,37 +5,35 @@ import 'package:firebase_auth/firebase_auth.dart';
 class AuthService {
   final _auth = FirebaseAuth.instance;
 
-  Future<User?> createUserWithEmailAndPassword(
+  FutureOr<User?> createUserWithEmailAndPassword(
       String email, String password) async {
     try {
-      final credentials = await _auth.createUserWithEmailAndPassword(
+      final cred = await _auth.createUserWithEmailAndPassword(
           email: email, password: password);
-
-      return credentials.user;
-    } catch (e) {
-      log('Unexpected Sign Up Error: $e');
-      rethrow;
-    }
-  }
-
-  Future<User?> loginUserWithEmailAndPassword(
-      String email, String password) async {
-    try {
-      final cred = await _auth.signInWithEmailAndPassword(
-          email: email, password: password);
-
       return cred.user;
     } catch (e) {
-      log("Log In Error Detected: $e");
+      log("Sign Up Error Detected");
     }
     return null;
   }
 
-/*FutureOr<void> signOut() async {
+  FutureOr<User?> loginUserWithEmailAndPassword(
+      String email, String password) async {
+    try {
+      final cred = await _auth.signInWithEmailAndPassword(
+          email: email, password: password);
+      return cred.user;
+    } catch (e) {
+      log("Log In Error Detected");
+    }
+    return null;
+  }
+
+  FutureOr<void> signOut() async{
     try {
       await _auth.signOut();
     } catch (e) {
-      log('Sign out error detected');
+      log("Sign Out Error Detected");
     }
-  }*/
+  }
 }

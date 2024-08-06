@@ -1,3 +1,4 @@
+import 'dart:developer';
 import 'package:exif_toolkit/authentication/auth_service.dart';
 import 'package:exif_toolkit/authentication/input_validator.dart';
 import 'package:flutter/material.dart';
@@ -168,7 +169,6 @@ class _SignupPageState extends State<SignupPage> {
 
   _signup() async {
     try {
-      // final deviceId = await DeviceDetails().getDeviceId();
       final user = await _auth.createUserWithEmailAndPassword(
           _email.text, _password.text);
 
@@ -186,12 +186,13 @@ class _SignupPageState extends State<SignupPage> {
           style: Theme.of(context).textTheme.bodyMedium,
         )));
       }
-    } catch (e) {
+    } catch (e,s) {
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
           content: Text(
         "Sign up failed. Error: $e",
         style: Theme.of(context).textTheme.bodyMedium,
       )));
+      log('$s');
     }
   }
 }
