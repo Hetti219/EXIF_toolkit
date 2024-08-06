@@ -48,12 +48,10 @@ class ExifDataManagement {
 
     try {
       // Move the image to external storage
-      final externalFile = await moveImageToExternalStorage(galleryFile!);
+      final externalFile = await _moveImageToExternalStorage(galleryFile!);
 
       // Use the new file path for EXIF writing
       final exif = await Exif.fromPath(externalFile.path);
-
-      //final exif = await Exif.fromPath(galleryFile!.path);
 
       log('$externalFile');
 
@@ -154,9 +152,9 @@ class ExifDataManagement {
     }
   }
 
-  Future<File> moveImageToExternalStorage(File file) async {
+  Future<File> _moveImageToExternalStorage(File file) async {
     final mediaDirectory =
-        Directory('/storage/emulated/0/Android/media/io.github.hetti219/files');
+        Directory('/storage/emulated/0/Android/media/io.github.hetti219/EXIF Toolkit');
 
     await mediaDirectory.create(recursive: true);
 
