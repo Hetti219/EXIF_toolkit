@@ -1,8 +1,6 @@
 import 'package:exif_toolkit/services/exif_data_management.dart';
 import 'package:flutter/material.dart';
-
 import 'package:image_picker/image_picker.dart';
-
 import 'dart:io';
 
 class HomePage extends StatefulWidget {
@@ -93,7 +91,7 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  //Methods fro image picking
+  //Methods for image picking
   void _showPicker({required BuildContext context}) {
     showModalBottomSheet(
         context: context,
