@@ -34,6 +34,7 @@
     </application>
 
     <uses-permission android:name="android.permission.MANAGE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.USE_BIOMETRIC" />
 
     <!-- Required to query activities that can process text, see:
          https://developer.android.com/training/package-visibility and
