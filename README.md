@@ -11,7 +11,7 @@ This mobile app can read, update and delete EXIF data of your images in your dev
 ## Getting Started
 
 > Note: This app is currently available for devices with Android 13 or higher
-* You can download the `APK` from the Releases section of this repository or [click here.](https://github.com/Hetti219/EXIF_toolkit/releases/download/v1.0.0/exif-toolkit.apk)
+* You can download the `APK` from the [Releases](https://github.com/Hetti219/EXIF_toolkit/releases/tag/v1.0.0) section of this repository or [click here.](https://github.com/Hetti219/EXIF_toolkit/releases/download/v1.0.0/exif-toolkit.apk)
 * Install the `APK` and you're all set to use the app.
 
 ## Usage
