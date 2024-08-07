@@ -192,14 +192,16 @@ class _LoginPageState extends State<LoginPage> {
         ));
   }
 
-  _login() async {
+  Future<void> _login() async {
     try {
       final user = await _auth.loginUserWithEmailAndPassword(
           _email.text, _password.text);
 
       if (user != null) {
-        log("User Logged Successfully!");
-        Navigator.pushReplacementNamed(context, '/home_page');
+        if (await _auth.authenticateWithBiometrics()) {
+          log("User Logged Successfully!");
+          Navigator.pushReplacementNamed(context, '/home_page');
+        }
       }
     } on FirebaseAuthException catch (e) {
       log("Login failed: $e");
