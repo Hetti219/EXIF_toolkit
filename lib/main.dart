@@ -44,7 +44,7 @@ class EXIFDataManipulatorApp extends StatelessWidget {
             ),
             labelLarge: TextStyle(
               // Style for button labels
-              color: Colors.white,
+              color: Colors.black,
             ),
           ),
         ),
@@ -74,7 +74,7 @@ class EXIFDataManipulatorApp extends StatelessWidget {
           ),
         ),
       ),
-      home: const LoginPage(),
+      home: const HomePage(),
       routes: {
         '/signup_page': (context) => const SignupPage(),
         '/login_page': (context) => const LoginPage(),
