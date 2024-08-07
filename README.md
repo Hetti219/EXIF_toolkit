@@ -1,6 +1,12 @@
-# exif_toolkit
+# EXIF Toolkit
 
-A mobile app to manipulate EXIF data in images.
+This mobile app can read, update and delete EXIF data of your images in your device.
+
+## Features
+
+* Biometric Authentication
+* Read EXIF data from images
+* Write EXIF data to images
 
 ## Getting Started
 
