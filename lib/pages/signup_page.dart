@@ -1,6 +1,7 @@
 import 'dart:developer';
 import 'package:exif_toolkit/authentication/auth_service.dart';
 import 'package:exif_toolkit/authentication/input_validator.dart';
+
 import 'package:flutter/material.dart';
 
 class SignupPage extends StatefulWidget {
@@ -152,13 +153,8 @@ class _SignupPageState extends State<SignupPage> {
                 onTap: () {
                   Navigator.pushReplacementNamed(context, '/login_page');
                 },
-                child: const Text(
-                  "Already have an Account? Log - In",
-                  style: TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
+                child: Text("Already have an Account? Log - In",
+                    style: theme.textTheme.bodyMedium),
               ),
             ],
           ),
@@ -167,18 +163,20 @@ class _SignupPageState extends State<SignupPage> {
     );
   }
 
-  _signup() async {
+  Future<void> _signup() async {
     try {
       final user = await _auth.createUserWithEmailAndPassword(
           _email.text, _password.text);
 
       if (user != null) {
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-            content: Text(
-          "User Sign up successful.",
-          style: Theme.of(context).textTheme.bodyMedium,
-        )));
-        Navigator.pushReplacementNamed(context, '/login_page');
+        if (await _auth.authenticateWithBiometrics()) {
+          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+              content: Text(
+            "User Sign up successful.",
+            style: Theme.of(context).textTheme.bodyMedium,
+          )));
+          Navigator.pushReplacementNamed(context, '/login_page');
+        }
       } else {
         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
             content: Text(
@@ -186,7 +184,7 @@ class _SignupPageState extends State<SignupPage> {
           style: Theme.of(context).textTheme.bodyMedium,
         )));
       }
-    } catch (e,s) {
+    } catch (e, s) {
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
           content: Text(
         "Sign up failed. Error: $e",
