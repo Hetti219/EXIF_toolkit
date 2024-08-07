@@ -34,7 +34,7 @@ class EXIFDataManipulatorApp extends StatelessWidget {
           // Using Roboto, a common font for social media apps
           const TextTheme(
             headlineMedium: TextStyle(
-              fontSize: 20,
+              fontSize: 22,
               fontWeight: FontWeight.bold,
               color: Colors.black, // Black for titles and headings
             ),
