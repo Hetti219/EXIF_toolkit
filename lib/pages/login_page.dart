@@ -132,6 +132,7 @@ class _LoginPageState extends State<LoginPage> {
                           borderSide:
                               const BorderSide(color: Color(0xFF1877F2))),
                     ),
+                    cursorColor: const Color(0xFF1877F2),
                   ),
                 ),
                 const SizedBox(
@@ -156,6 +157,7 @@ class _LoginPageState extends State<LoginPage> {
                                 borderSide:
                                     const BorderSide(color: Color(0xFF1877F2))),
                           ),
+                          cursorColor: const Color(0xFF1877F2),
                         ),
                         const SizedBox(
                           height: 10,

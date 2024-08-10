@@ -105,6 +105,7 @@ class _SignupPageState extends State<SignupPage> {
                           borderSide:
                               const BorderSide(color: Color(0xFF1877F2))),
                       errorText: _emailError),
+                  cursorColor: const Color(0xFF1877F2),
                 ),
               ),
               const SizedBox(
@@ -125,6 +126,7 @@ class _SignupPageState extends State<SignupPage> {
                           borderSide:
                               const BorderSide(color: Color(0xFF1877F2))),
                       errorText: _passwordError),
+                  cursorColor: const Color(0xFF1877F2),
                 ),
               ),
               const SizedBox(
@@ -146,6 +148,7 @@ class _SignupPageState extends State<SignupPage> {
                           borderSide:
                               const BorderSide(color: Color(0xFF1877F2))),
                       errorText: _passwordRetypeError),
+                  cursorColor: const Color(0xFF1877F2),
                 ),
               ),
               const SizedBox(
