@@ -109,7 +109,7 @@ class _LoginPageState extends State<LoginPage> {
                   height: 20,
                 ),
                 Image.asset(
-                  'assets/images/Gemini_Generated_Image_exos46exos46exos.jpeg',
+                  'assets/icons/playstore-icon.png',
                   height: 200,
                   width: 200,
                 ),

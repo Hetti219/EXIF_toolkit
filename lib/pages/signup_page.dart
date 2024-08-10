@@ -83,7 +83,7 @@ class _SignupPageState extends State<SignupPage> {
                 height: 10,
               ),
               Image.asset(
-                'assets/images/Gemini_Generated_Image_exos46exos46exos.jpeg',
+                'assets/icons/playstore-icon.png',
                 width: 200,
                 height: 200,
               ),
