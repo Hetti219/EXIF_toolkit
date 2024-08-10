@@ -100,6 +100,10 @@ class _SignupPageState extends State<SignupPage> {
                       labelText: 'Enter Email',
                       border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(20)),
+                      focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(20),
+                          borderSide:
+                              const BorderSide(color: Color(0xFF1877F2))),
                       errorText: _emailError),
                 ),
               ),
@@ -116,6 +120,10 @@ class _SignupPageState extends State<SignupPage> {
                       labelText: 'Enter Password',
                       border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(20)),
+                      focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(20),
+                          borderSide:
+                              const BorderSide(color: Color(0xFF1877F2))),
                       errorText: _passwordError),
                 ),
               ),
@@ -131,7 +139,12 @@ class _SignupPageState extends State<SignupPage> {
                       icon: const Icon(Icons.password_outlined),
                       labelText: 'Enter Password',
                       border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(20)),
+                        borderRadius: BorderRadius.circular(20),
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(20),
+                          borderSide:
+                              const BorderSide(color: Color(0xFF1877F2))),
                       errorText: _passwordRetypeError),
                 ),
               ),

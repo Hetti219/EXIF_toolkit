@@ -27,23 +27,21 @@ class EXIFDataManipulatorApp extends StatelessWidget {
       theme: ThemeData(
         useMaterial3: true,
         colorScheme: ColorScheme.fromSeed(
-          seedColor: const Color(0xFF1877F2), // Facebook blue as the base color
-          brightness: Brightness.light, // Facebook uses a light theme
+          seedColor: const Color(0xFF1877F2),
+          brightness: Brightness.light,
         ),
         textTheme: GoogleFonts.robotoTextTheme(
-          // Using Roboto, a common font for social media apps
           const TextTheme(
             headlineMedium: TextStyle(
               fontSize: 22,
               fontWeight: FontWeight.bold,
-              color: Colors.black, // Black for titles and headings
+              color: Colors.black,
             ),
             bodyMedium: TextStyle(
               fontSize: 16,
-              color: Colors.black, // Black for body text
+              color: Colors.black,
             ),
             labelLarge: TextStyle(
-              // Style for button labels
               color: Colors.black,
             ),
           ),
@@ -51,22 +49,22 @@ class EXIFDataManipulatorApp extends StatelessWidget {
         scaffoldBackgroundColor: Colors.white,
         // White background
         appBarTheme: const AppBarTheme(
-          backgroundColor: Color(0xFF1877F2), // Facebook blue app bar
-          elevation: 1, // Subtle elevation
+          backgroundColor: Color(0xFF1877F2),
+          elevation: 1,
           titleTextStyle: TextStyle(
             fontFamily: 'Roboto',
-            color: Colors.white, // White title text
+            color: Colors.white,
             fontWeight: FontWeight.bold,
           ),
-          iconTheme: IconThemeData(color: Colors.white), // White icons
+          iconTheme: IconThemeData(color: Colors.white),
         ),
         elevatedButtonTheme: ElevatedButtonThemeData(
           style: ElevatedButton.styleFrom(
-            backgroundColor: const Color(0xFF1877F2), // Facebook blue buttons
-            foregroundColor: Colors.white, // White text on buttons
+            backgroundColor: const Color(0xFF1877F2),
+            foregroundColor: Colors.white,
           ),
         ),
-        // You can keep the CupertinoPageTransitionsBuilder if you prefer that style
+
         pageTransitionsTheme: PageTransitionsTheme(
           builders: Map<TargetPlatform, PageTransitionsBuilder>.fromIterable(
             TargetPlatform.values,

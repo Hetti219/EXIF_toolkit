@@ -62,7 +62,7 @@ class _HomePageState extends State<HomePage> {
                     Column(
                       children: exifData!.entries.map((entry) {
                         return ListTile(
-                          title: Text(entry.key),
+                          //title: Text(entry.key),
                           subtitle: TextField(
                             controller: TextEditingController(
                                 text: entry.value.toString()),
@@ -70,6 +70,17 @@ class _HomePageState extends State<HomePage> {
                               // Update the exifData map with the new value
                               exifData![entry.key] = value;
                             },
+                            decoration: InputDecoration(
+                                focusedBorder: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(20),
+                                    borderSide: const BorderSide(
+                                        color: Color(0xFF1877F2))),
+                                labelText: entry.key,
+                                labelStyle: theme.textTheme.bodyLarge,
+                                border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(20),
+                                )),
+                            cursorColor: const Color(0xFF1877F2),
                           ),
                         );
                       }).toList(),

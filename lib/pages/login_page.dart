@@ -127,6 +127,10 @@ class _LoginPageState extends State<LoginPage> {
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(20),
                       ),
+                      focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(20),
+                          borderSide:
+                              const BorderSide(color: Color(0xFF1877F2))),
                     ),
                   ),
                 ),
@@ -139,14 +143,20 @@ class _LoginPageState extends State<LoginPage> {
                       crossAxisAlignment: CrossAxisAlignment.end,
                       children: [
                         TextField(
-                            controller: _password,
-                            obscureText: true,
-                            decoration: InputDecoration(
-                                icon: const Icon(Icons.password),
-                                labelText: 'Enter Password',
-                                border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(20),
-                                ))),
+                          controller: _password,
+                          obscureText: true,
+                          decoration: InputDecoration(
+                            icon: const Icon(Icons.password),
+                            labelText: 'Enter Password',
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(20),
+                            ),
+                            focusedBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(20),
+                                borderSide:
+                                    const BorderSide(color: Color(0xFF1877F2))),
+                          ),
+                        ),
                         const SizedBox(
                           height: 10,
                         ),
