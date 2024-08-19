@@ -83,7 +83,7 @@ class _SignupPageState extends State<SignupPage> {
                 height: 10,
               ),
               Image.asset(
-                'assets/icons/tool-box.png',
+                'assets/images/app-logo.jpg',
                 width: 200,
                 height: 200,
               ),
