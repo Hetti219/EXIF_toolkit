@@ -21,57 +21,114 @@ class EXIFDataManipulatorApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      supportedLocales: const [Locale('en')],
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        useMaterial3: true,
-        colorScheme: ColorScheme.fromSeed(
-          seedColor: const Color(0xFF1877F2),
-          brightness: Brightness.light,
-        ),
-        textTheme: GoogleFonts.robotoTextTheme(
-          const TextTheme(
-            headlineMedium: TextStyle(
-              fontSize: 22,
-              fontWeight: FontWeight.bold,
-              color: Colors.black,
-            ),
-            bodyMedium: TextStyle(
-              fontSize: 16,
-              color: Colors.black,
-            ),
-            labelLarge: TextStyle(
-              color: Colors.black,
-            ),
-          ),
-        ),
-        scaffoldBackgroundColor: Colors.white,
-        // White background
-        appBarTheme: const AppBarTheme(
-          backgroundColor: Color(0xFF1877F2),
-          elevation: 1,
-          titleTextStyle: TextStyle(
-            fontFamily: 'Roboto',
-            color: Colors.white,
+    //Themes
+    final lightTheme = ThemeData(
+      useMaterial3: true,
+      colorScheme: ColorScheme.fromSeed(
+        seedColor: const Color(0xFF1877F2),
+        brightness: Brightness.light,
+      ),
+      textTheme: GoogleFonts.robotoTextTheme(
+        const TextTheme(
+          headlineMedium: TextStyle(
+            fontSize: 22,
             fontWeight: FontWeight.bold,
+            color: Colors.black,
           ),
-          iconTheme: IconThemeData(color: Colors.white),
-        ),
-        elevatedButtonTheme: ElevatedButtonThemeData(
-          style: ElevatedButton.styleFrom(
-            backgroundColor: const Color(0xFF1877F2),
-            foregroundColor: Colors.white,
+          bodyMedium: TextStyle(
+            fontSize: 16,
+            color: Colors.black,
           ),
-        ),
-
-        pageTransitionsTheme: PageTransitionsTheme(
-          builders: Map<TargetPlatform, PageTransitionsBuilder>.fromIterable(
-            TargetPlatform.values,
-            value: (dynamic _) => const CupertinoPageTransitionsBuilder(),
+          labelLarge: TextStyle(
+            color: Colors.black,
           ),
         ),
       ),
+      listTileTheme: const ListTileThemeData(textColor: Colors.black),
+      scaffoldBackgroundColor: Colors.white,
+      // White background
+      appBarTheme: const AppBarTheme(
+        backgroundColor: Color(0xFF1877F2),
+        elevation: 1,
+        titleTextStyle: TextStyle(
+          fontFamily: 'Roboto',
+          color: Colors.white,
+          fontWeight: FontWeight.bold,
+        ),
+        iconTheme: IconThemeData(color: Colors.white),
+      ),
+      elevatedButtonTheme: ElevatedButtonThemeData(
+        style: ElevatedButton.styleFrom(
+          backgroundColor: const Color(0xFF1877F2),
+          foregroundColor: Colors.white,
+        ),
+      ),
+
+      pageTransitionsTheme: PageTransitionsTheme(
+        builders: Map<TargetPlatform, PageTransitionsBuilder>.fromIterable(
+          TargetPlatform.values,
+          value: (dynamic _) => const CupertinoPageTransitionsBuilder(),
+        ),
+      ),
+    );
+
+    final darkTheme = ThemeData(
+      useMaterial3: true,
+      colorScheme: ColorScheme.fromSeed(
+        seedColor: const Color(0xFF1877F2),
+        brightness: Brightness.dark,
+      ),
+      textTheme: GoogleFonts.robotoTextTheme(
+        const TextTheme(
+          headlineMedium: TextStyle(
+            fontSize: 22,
+            fontWeight: FontWeight.bold,
+            color: Colors.black, // Switch text color to white
+          ),
+          bodyMedium: TextStyle(
+            fontSize: 16,
+            color: Colors.white, // Switch text color to white
+          ),
+          labelLarge: TextStyle(
+            color: Colors.black, // Switch text color to white
+          ),
+        ),
+      ),
+      listTileTheme: const ListTileThemeData(textColor: Colors.white),
+      scaffoldBackgroundColor: const Color(0xFF212121),
+      // Dark background
+
+      appBarTheme: const AppBarTheme(
+        backgroundColor: Color(0xFF1877F2), // Maintain app bar color
+        elevation: 1,
+        titleTextStyle: TextStyle(
+          fontFamily: 'Roboto',
+          color: Colors.black, // Switch text color to black
+          fontWeight: FontWeight.bold,
+        ),
+        iconTheme:
+            IconThemeData(color: Colors.black), // Switch icon color to black
+      ),
+      elevatedButtonTheme: ElevatedButtonThemeData(
+        style: ElevatedButton.styleFrom(
+          backgroundColor: Colors.white, // Inverse button background color
+          foregroundColor: const Color(0xFF1877F2), // Inverse button text color
+        ),
+      ),
+
+      pageTransitionsTheme: PageTransitionsTheme(
+        builders: Map<TargetPlatform, PageTransitionsBuilder>.fromIterable(
+          TargetPlatform.values,
+          value: (dynamic _) => const CupertinoPageTransitionsBuilder(),
+        ),
+      ),
+    );
+
+    return MaterialApp(
+      supportedLocales: const [Locale('en')],
+      title: 'Flutter Demo',
+      theme: lightTheme,
+      darkTheme: darkTheme,
       home: const LoginPage(),
       routes: {
         '/signup_page': (context) => const SignupPage(),

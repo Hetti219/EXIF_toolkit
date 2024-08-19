@@ -111,11 +111,10 @@ class _HomePageState extends State<HomePage> {
               child: Wrap(
             children: <Widget>[
               ListTile(
-                textColor: Colors.black,
                 leading: const Icon(Icons.photo_library),
-                title: Text(
+                title: const Text(
                   'Photo Library',
-                  style: Theme.of(context).textTheme.labelLarge,
+                  style: TextStyle(fontSize: 14),
                 ),
                 onTap: () {
                   getImage(ImageSource.gallery);
@@ -124,9 +123,9 @@ class _HomePageState extends State<HomePage> {
               ),
               ListTile(
                 leading: const Icon(Icons.photo_camera),
-                title: Text(
+                title: const Text(
                   'Camera',
-                  style: Theme.of(context).textTheme.labelLarge,
+                  style: TextStyle(fontSize: 14),
                 ),
                 onTap: () {
                   getImage(ImageSource.camera);
