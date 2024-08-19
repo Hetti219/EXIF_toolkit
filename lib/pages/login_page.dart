@@ -1,4 +1,5 @@
 import 'package:exif_toolkit/authentication/auth_service.dart';
+import 'package:exif_toolkit/authentication/input_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'dart:developer';
@@ -13,14 +14,42 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
   final _auth = AuthService();
 
+  //Controllers
   final _email = TextEditingController();
   final _password = TextEditingController();
+
+  //Error message variables
+  String? _emailError;
+  String? _passwordError;
+
+  @override
+  void initState() {
+    super.initState();
+
+    _email.addListener(_validateEmail);
+
+    _password.addListener(_validatePassword);
+  }
 
   @override
   void dispose() {
     super.dispose();
     _email.dispose();
     _password.dispose();
+  }
+
+  //Email validation
+  void _validateEmail() {
+    setState(() {
+      _emailError = EmailValidator.validate(_email.text);
+    });
+  }
+
+  //Password validation
+  void _validatePassword() {
+    setState(() {
+      _passwordError = PasswordValidator.validate(_password.text);
+    });
   }
 
   void _showResetDeviceDialog(BuildContext context) {
@@ -109,7 +138,7 @@ class _LoginPageState extends State<LoginPage> {
                   height: 20,
                 ),
                 Image.asset(
-                  'assets/icons/tool-box.png',
+                  'assets/images/app-logo.jpg',
                   height: 200,
                   width: 200,
                 ),
@@ -122,16 +151,16 @@ class _LoginPageState extends State<LoginPage> {
                     controller: _email,
                     keyboardType: TextInputType.emailAddress,
                     decoration: InputDecoration(
-                      icon: const Icon(Icons.email),
-                      labelText: 'Enter User Email',
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(20),
-                      ),
-                      focusedBorder: OutlineInputBorder(
+                        icon: const Icon(Icons.email),
+                        labelText: 'Enter User Email',
+                        border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(20),
-                          borderSide:
-                              const BorderSide(color: Color(0xFF1877F2))),
-                    ),
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(20),
+                            borderSide:
+                                const BorderSide(color: Color(0xFF1877F2))),
+                        errorText: _emailError),
                     cursorColor: const Color(0xFF1877F2),
                   ),
                 ),
@@ -147,16 +176,16 @@ class _LoginPageState extends State<LoginPage> {
                           controller: _password,
                           obscureText: true,
                           decoration: InputDecoration(
-                            icon: const Icon(Icons.password),
-                            labelText: 'Enter Password',
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(20),
-                            ),
-                            focusedBorder: OutlineInputBorder(
+                              icon: const Icon(Icons.password),
+                              labelText: 'Enter Password',
+                              border: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(20),
-                                borderSide:
-                                    const BorderSide(color: Color(0xFF1877F2))),
-                          ),
+                              ),
+                              focusedBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(20),
+                                  borderSide: const BorderSide(
+                                      color: Color(0xFF1877F2))),
+                              errorText: _passwordError),
                           cursorColor: const Color(0xFF1877F2),
                         ),
                         const SizedBox(
