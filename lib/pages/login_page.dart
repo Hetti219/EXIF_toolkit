@@ -109,7 +109,7 @@ class _LoginPageState extends State<LoginPage> {
                   height: 20,
                 ),
                 Image.asset(
-                  'assets/icons/playstore-icon.png',
+                  'assets/icons/tool-box.png',
                   height: 200,
                   width: 200,
                 ),
