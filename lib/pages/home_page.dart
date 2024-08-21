@@ -58,6 +58,9 @@ class _HomePageState extends State<HomePage> {
                             child: Image.file(galleryFile!),
                           ),
                   ),
+                  const SizedBox(
+                    height: 20,
+                  ),
                   if (exifData != null)
                     Column(
                       children: exifData!.entries.map((entry) {
