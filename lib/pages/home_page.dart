@@ -120,7 +120,7 @@ class _HomePageState extends State<HomePage> {
                   style: TextStyle(fontSize: 14),
                 ),
                 onTap: () {
-                  getImage(ImageSource.gallery);
+                  _getImage(ImageSource.gallery);
                   Navigator.of(context).pop();
                 },
               ),
@@ -131,7 +131,7 @@ class _HomePageState extends State<HomePage> {
                   style: TextStyle(fontSize: 14),
                 ),
                 onTap: () {
-                  getImage(ImageSource.camera);
+                  _getImage(ImageSource.camera);
                   Navigator.of(context).pop();
                 },
               ),
@@ -140,7 +140,7 @@ class _HomePageState extends State<HomePage> {
         });
   }
 
-  Future getImage(ImageSource img) async {
+  Future _getImage(ImageSource img) async {
     final pickedFile = await picker.pickImage(source: img);
     if (pickedFile != null) {
       setState(() {

@@ -126,7 +126,7 @@ class EXIFDataManipulatorApp extends StatelessWidget {
 
     return MaterialApp(
       supportedLocales: const [Locale('en')],
-      title: 'Flutter Demo',
+      title: 'EXIF Toolkit',
       theme: lightTheme,
       darkTheme: darkTheme,
       home: const LoginPage(),
